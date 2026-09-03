@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ja Organic Food | Pure Natural Sugar; Coconut Oil</title>
+<meta name="description" content="Ja Organic Food offers 100% natural, traditionally made nattu sakkarai (country sugar) and pure coconut oil. Cash on delivery available.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8C%B4%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --brown:#4A2C1A;
+  --brown-light:#6B3F24;
+  --cream:#FFF8E7;
+  --cream-light:#FFFDF7;
+  --gold:#D9A441;
+  --muted:#8a6a54;
+  --card:#FFFFFF;
+  --success:#2e7d32;
+  --error:#b3261e;
+  --radius:18px;
+  --shadow:0 6px 24px rgba(74,44,26,.08);
+  --shadow-hover:0 12px 32px rgba(74,44,26,.14);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:'Poppins',Arial,sans-serif;background:var(--cream);color:var(--brown);line-height:1.6}
+h1,h2,h3{font-family:'Playfair Display',serif;margin:0 0 10px}
+img{max-width:100%;display:block}
+a{color:inherit}
+
+/* Section heading */
+.section-head{text-align:center;margin-bottom:40px}
+.section-head h2{font-size:clamp(28px,4vw,36px)}
+.section-head .underline{width:70px;height:3px;background:var(--gold);margin:12px auto 0;border-radius:2px}
+.amp{color:var(--brown);font-weight:900}
+
+/* Navbar */
+.navbar{position:sticky;top:0;z-index:100;background:rgba(255,253,247,.95);backdrop-filter:blur(6px);box-shadow:0 2px 14px rgba(0,0,0,.08)}
+.nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:12px 5%}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.brand-logo{width:44px;height:44px;border-radius:50%;background:var(--brown);color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.brand-text{line-height:1.2}
+.brand-text strong{font-family:'Playfair Display',serif;font-size:17px;letter-spacing:.5px;display:block}
+.brand-text span{font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase}
+
+.nav-links{display:flex;align-items:center;gap:6px;list-style:none;margin:0;padding:0}
+.nav-links a{position:relative;text-decoration:none;color:var(--brown);padding:10px 16px;border-radius:20px;font-weight:500;font-size:15px;transition:.2s}
+.nav-links a:hover{background:var(--cream)}
+.nav-links a.active{background:var(--cream);color:var(--brown-light);font-weight:600}
+.nav-links a.active::after{content:"";position:absolute;left:16px;right:16px;bottom:4px;height:3px;background:var(--gold);border-radius:2px}
+
+.nav-cta{display:flex;align-items:center;gap:14px}
+.menu-toggle{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:8px}
+.menu-toggle span{width:24px;height:2px;background:var(--brown);border-radius:2px}
+
+/* Buttons */
+.btn{background:var(--brown);color:#fff;padding:12px 26px;border-radius:25px;text-decoration:none;font-weight:600;display:inline-flex;align-items:center;gap:8px;border:none;cursor:pointer;font-size:15px;font-family:inherit;transition:.2s;box-shadow:0 4px 14px rgba(74,44,26,.25)}
+.btn:hover{background:var(--brown-light);transform:translateY(-2px)}
+.btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.btn-sm{padding:10px 20px;font-size:14px}
+
+/* Hero */
+.hero{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:40px;padding:70px 5%;flex-wrap:wrap}
+.hero-text{max-width:520px}
+.hero-text h1{font-size:clamp(34px,5vw,54px);line-height:1.15}
+.hero-text p.lead{font-size:18px;color:var(--muted);margin:14px 0 26px}
+.hero-badges{display:flex;gap:24px;margin-top:30px;flex-wrap:wrap}
+.hero-badge{display:flex;align-items:center;gap:12px;max-width:220px}
+.hero-badge .icon{width:42px;height:42px;border-radius:50%;background:var(--brown);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.hero-badge strong{display:block;font-size:15px}
+.hero-badge span{font-size:13px;color:var(--muted)}
+.hero-img{flex:1;min-width:280px;max-width:520px}
+.hero-img img{border-radius:24px;box-shadow:var(--shadow-hover)}
+
+/* Sections */
+section{padding:70px 5%}
+.container{max-width:1200px;margin:0 auto}
+
+/* Product cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px}
+.card{background:var(--card);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:.25s}
+.card:hover{transform:translateY(-6px);box-shadow:var(--shadow-hover)}
+.card img{width:100%;height:180px;object-fit:cover}
+.card-body{padding:16px 18px}
+.card-body h3{font-family:'Poppins',sans-serif;font-size:16px;font-weight:600;margin:0 0 6px}
+.card-price{color:var(--success);font-weight:700;font-size:17px}
+
+/* Offers */
+.offers-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px}
+.offer-card{background:var(--card);padding:26px;border-radius:var(--radius);box-shadow:var(--shadow);text-align:center}
+.offer-card .icon{width:52px;height:52px;border-radius:50%;background:var(--cream);color:var(--brown);display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 14px}
+.offer-card h3{font-size:17px;font-family:'Poppins',sans-serif;font-weight:600}
+.offer-card p{color:var(--muted);font-size:14px;margin:0}
+
+/* About */
+.about-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:50px;align-items:center}
+.about-grid img{border-radius:var(--radius);box-shadow:var(--shadow)}
+.about-stats{display:flex;gap:30px;margin-top:24px;flex-wrap:wrap}
+.about-stats div strong{display:block;font-size:26px;font-family:'Playfair Display',serif;color:var(--brown-light)}
+.about-stats div span{font-size:13px;color:var(--muted)}
+
+/* Contact */
+.contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px}
+.contact-card{background:var(--card);padding:26px;border-radius:var(--radius);box-shadow:var(--shadow);display:flex;gap:16px;align-items:flex-start}
+.contact-card .icon{width:44px;height:44px;border-radius:50%;background:var(--cream);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.contact-card h3{font-size:16px;font-family:'Poppins',sans-serif;font-weight:600;margin:0 0 4px}
+.contact-card a,.contact-card p{color:var(--muted);text-decoration:none;font-size:14px;margin:0}
+
+/* Order / Cart */
+.order-wrap{display:grid;grid-template-columns:1.4fr 1fr;gap:30px;align-items:start}
+.order-form{background:var(--card);padding:32px;border-radius:var(--radius);box-shadow:var(--shadow)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field.full{grid-column:1/-1}
+label{font-size:13px;font-weight:600;color:var(--brown)}
+input,select,textarea{font-family:inherit;padding:12px 14px;border-radius:10px;border:1px solid #e4d7c2;background:var(--cream-light);font-size:14px;color:var(--brown);width:100%}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--gold);border-color:var(--gold)}
+textarea{resize:vertical;min-height:90px}
+.form-status{margin-top:14px;font-size:14px;font-weight:600;min-height:20px}
+.form-status.success{color:var(--success)}
+.form-status.error{color:var(--error)}
+
+/* Order confirmation popup */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(74,44,26,.45);z-index:1000;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{display:flex}
+.modal-box{background:var(--card);border-radius:var(--radius);padding:36px 30px;max-width:380px;width:100%;text-align:center;box-shadow:var(--shadow-hover);animation:pop .25s ease}
+@keyframes pop{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+.modal-check{width:64px;height:64px;border-radius:50%;background:var(--success);color:#fff;font-size:32px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+.modal-box h3{font-family:'Playfair Display',serif;margin-bottom:8px}
+.modal-box p{color:var(--muted);font-size:14px;margin:0 0 22px}
+.modal-box .btn{width:100%;justify-content:center}
+
+.order-side{display:flex;flex-direction:column;gap:20px}
+.side-card{background:var(--card);padding:24px;border-radius:var(--radius);box-shadow:var(--shadow)}
+.side-card.cod{display:flex;gap:14px;align-items:center}
+.side-card.cod .icon{width:46px;height:46px;border-radius:50%;background:var(--cream);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.side-card.cod h3{font-size:15px;font-family:'Poppins',sans-serif;font-weight:600;margin:0 0 2px}
+.side-card.cod p{margin:0;font-size:13px;color:var(--muted)}
+.why-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.why-list li{display:flex;gap:10px;align-items:center;font-size:14px}
+.why-list li::before{content:"✓";color:var(--success);font-weight:700}
+.side-img img{border-radius:var(--radius);box-shadow:var(--shadow)}
+
+/* Footer */
+footer{background:var(--brown);color:#fff}
+.footer-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:30px;padding:50px 5% 20px}
+.footer-grid h3{color:#fff;font-size:18px}
+.footer-grid p,.footer-grid a{color:#e6d5c3;font-size:14px;text-decoration:none;display:block;margin-bottom:8px}
+.footer-bottom{text-align:center;padding:18px;border-top:1px solid rgba(255,255,255,.12);font-size:13px;color:#cbb69f}
+
+/* Responsive */
+@media (max-width:900px){
+  .about-grid{grid-template-columns:1fr}
+  .order-wrap{grid-template-columns:1fr}
+}
+@media (max-width:768px){
+  .menu-toggle{display:flex}
+  .nav-links{position:absolute;top:100%;left:0;right:0;background:var(--cream-light);flex-direction:column;align-items:stretch;padding:10px 5%;box-shadow:0 8px 20px rgba(0,0,0,.08);display:none}
+  .nav-links.open{display:flex}
+  .nav-links a{padding:12px 16px}
+  .form-row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="#home" class="brand">
+      <span class="brand-logo"><img src="logo.jpeg" alt="Ja Organic Food Logo" style="width:44px;height:44px;border-radius:50%;object-fit:cover"></span>
+      <span class="brand-text"><strong>Ja Organic Food</strong><span>Pure . Natural . Healthy</span></span>
+    </a>
+    <ul class="nav-links" id="navList">
+      <li><a href="#home" class="active">Home</a></li>
+      <li><a href="#products">Our Products</a></li>
+      <li><a href="#offers">Special Offers</a></li>
+      <li><a href="#about">About Us</a></li>
+      <li><a href="#contact">Contact Us</a></li>
+    </ul>
+    <div class="nav-cta">
+      <a href="#cart" class="btn btn-sm">🛒 Place Order</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<section id="home" class="hero">
+  <div class="hero-text">
+    <h1>Pure Nattu Sakkarai <span class="amp">+</span> Coconut Oil</h1>
+    <p class="lead">Traditional. Natural. Made with Love.</p>
+    <a class="btn" href="#products">Shop Now →</a>
+    <div class="hero-badges">
+      <div class="hero-badge">
+        <span class="icon">🌿</span>
+        <div><strong>100% Natural</strong><span>No chemicals, no additives</span></div>
+      </div>
+      <div class="hero-badge">
+        <span class="icon">❤️</span>
+        <div><strong>Healthy &amp; Pure</strong><span>Good for you and your family</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-img">
+    <img src="colg.jpg" alt="Bowl of natural nattu sakkarai with coconut and coconut oil">
+  </div>
+</section>
+
+<section id="products">
+  <div class="container">
+    <div class="section-head">
+      <h2>Our Products</h2>
+      <div class="underline"></div>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <img src="natusakaraimain.jpg" alt="500g pack of nattu sakkarai">
+        <div class="card-body"><h3>500g Pack</h3><div class="card-price">₹90</div></div>
+      </div>
+      <div class="card">
+        <img src="natusakaraimain.jpg" alt="1kg pack of nattu sakkarai">
+        <div class="card-body"><h3>1kg Pack</h3><div class="card-price">₹180</div></div>
+      </div>
+      <div class="card">
+        <img src="natusakaraimain.jpg" alt="5kg pack of nattu sakkarai">
+        <div class="card-body"><h3>5kg Pack</h3><div class="card-price">₹850</div></div>
+      </div>
+      <div class="card">
+        <img src="Coconutoil.png" alt="500ml bottle of pure coconut oil">
+        <div class="card-body"><h3>500ml Coconut Oil</h3><div class="card-price">₹250</div></div>
+      </div>
+      <div class="card">
+        <img src="Coconutoil.png" alt="1 litre bottle of pure coconut oil">
+        <div class="card-body"><h3>1L Coconut Oil</h3><div class="card-price">₹480</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="offers" style="background:var(--cream-light)">
+  <div class="container">
+    <div class="section-head">
+      <h2>Special Offers</h2>
+      <div class="underline"></div>
+    </div>
+    <div class="offers-grid">
+      <div class="offer-card">
+        <div class="icon">🚚</div>
+        <h3>Free Delivery</h3>
+        <p>Buy 5kg Nattu Sakkarai and get free delivery</p>
+      </div>
+      <div class="offer-card">
+        <div class="icon">🎁</div>
+        <h3>Combo Discount</h3>
+        <p>Order sakkarai + coconut oil together and save extra</p>
+      </div>
+      <div class="offer-card">
+        <div class="icon">⭐</div>
+        <h3>First Order</h3>
+        <p>New customers get a special discount on their first order</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="container about-grid">
+    <div>
+      <div class="section-head" style="text-align:left">
+        <h2>About Us</h2>
+        <div class="underline" style="margin-left:0"></div>
+      </div>
+      <p>Ja Organic Food provides pure and natural traditional sugar and coconut oil, made using time-honoured methods passed down through generations. No chemicals, no shortcuts — just honest, wholesome ingredients delivered straight to your home.</p>
+      <div class="about-stats">
+        <div><strong>100%</strong><span>Natural Ingredients</span></div>
+        <div><strong>0</strong><span>Chemicals or Additives</span></div>
+        <div><strong>COD</strong><span>Cash on Delivery</span></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:20px">
+      <img src="natusakaraimain.jpg" alt="Traditionally made nattu sakkarai">
+      <img src="coconutoil.jpg" alt="Pure coconut oil in a glass bottle with fresh coconut">
+    </div>
+  </div>
+</section>
+
+<section id="contact" style="background:var(--cream-light)">
+  <div class="container">
+    <div class="section-head">
+      <h2>Contact Us</h2>
+      <div class="underline"></div>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-card">
+        <span class="icon">📞</span>
+        <div><h3>Call Us</h3><a href="tel:+919150919311" onclick="return confirm('Do you want to call +91 91509 19311?')">+91 91509 19311</a></div>
+      </div>
+      <div class="contact-card">
+        <span class="icon">💬</span>
+        <div><h3>WhatsApp</h3><a href="https://wa.me/919150919311" target="_blank" rel="noopener">Chat with us to order</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="cart">
+  <div class="container">
+    <div class="section-head">
+      <h2>Place Your Order</h2>
+      <div class="underline"></div>
+    </div>
+    <div class="order-wrap">
+      <form class="order-form" id="orderForm" novalidate>
+        <div class="form-row">
+          <div class="field">
+            <label for="customerName">Your Name</label>
+            <input type="text" id="customerName" placeholder="Enter your name" required>
+          </div>
+          <div class="field">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" placeholder="10-digit phone number" pattern="[0-9]{10}" title="Enter a 10-digit phone number" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field full">
+            <label for="address">Full Delivery Address</label>
+            <textarea id="address" placeholder="Enter your complete address" rows="3" required></textarea>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label for="product">Product</label>
+            <select id="product">
+              <option value="500g Pack">500g Pack — ₹90</option>
+              <option value="1kg Pack">1kg Pack — ₹180</option>
+              <option value="5kg Pack">5kg Pack — ₹850</option>
+              <option value="500ml Coconut Oil">500ml Coconut Oil — ₹250</option>
+              <option value="1L Coconut Oil">1L Coconut Oil — ₹480</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="qty">Quantity</label>
+            <input type="number" id="qty" min="1" value="1" required>
+          </div>
+        </div>
+        <p><b>Payment Method:</b> Cash on Delivery (COD)</p>
+        <button type="submit" class="btn" id="submitBtn" style="width:100%;justify-content:center">Place Order</button>
+        <div class="form-status" id="orderStatus" role="status"></div>
+      </form>
+
+      <div class="order-side">
+        <div class="side-card cod">
+          <span class="icon">💵</span>
+          <div><h3>Cash on Delivery</h3><p>Pay cash when your order is delivered to you.</p></div>
+        </div>
+        <div class="side-card">
+          <h3 style="font-family:'Poppins',sans-serif;font-size:16px;margin-bottom:14px">Why Choose Us?</h3>
+          <ul class="why-list">
+            <li>100% Natural &amp; Pure</li>
+            <li>Hygienically Packed</li>
+            <li>Made with Traditional Process</li>
+            <li>Delivered with Care</li>
+          </ul>
+        </div>
+        <div class="side-img">
+          <img src="Coconutoil.png" alt="Coconut oil bottle with fresh coconut">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="modal-overlay" id="orderModal">
+  <div class="modal-box">
+    <div class="modal-check">✓</div>
+    <h3>Order Placed!</h3>
+    <p>Thank you! Your order has been received. We'll contact you soon to confirm delivery.</p>
+    <button type="button" class="btn" id="modalCloseBtn">OK</button>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <h3>Ja Organic Food</h3>
+      <p>100% Natural Traditional Sugar &amp; Pure Coconut Oil, made with love and delivered to your door.</p>
+    </div>
+    <div>
+      <h3>Quick Links</h3>
+      <a href="#home">Home</a>
+      <a href="#products">Our Products</a>
+      <a href="#offers">Special Offers</a>
+      <a href="#about">About Us</a>
+    </div>
+    <div>
+      <h3>Get in Touch</h3>
+      <a href="tel:+919150919311">📞 +91 91509 19311</a>
+      <a href="https://wa.me/919150919311" target="_blank" rel="noopener">💬 WhatsApp Orders</a>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2026 Ja Organic Food and Coconut Oil. All rights reserved.</div>
+</footer>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAEqFUJaJ7_Eh-HrPQk_UY8Zb299JZhIlg",
+  authDomain: "ja-nattusakkarai.firebaseapp.com",
+  projectId: "ja-nattusakkarai",
+  storageBucket: "ja-nattusakkarai.firebasestorage.app",
+  messagingSenderId: "890285745573",
+  appId: "1:890285745573:web:713daba1bc6f5372b6b44c"
+};
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const form = document.getElementById("orderForm");
+const submitBtn = document.getElementById("submitBtn");
+const statusMsg = document.getElementById("orderStatus");
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  if (!form.checkValidity()) {
+    form.reportValidity();
+    return;
+  }
+
+  const order = {
+    name: document.getElementById("customerName").value.trim(),
+    phone: document.getElementById("phone").value.trim(),
+    address: document.getElementById("address").value.trim(),
+    product: document.getElementById("product").value,
+    qty: Number(document.getElementById("qty").value),
+    status: "Received",
+    createdAt: new Date().toISOString()
+  };
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Placing Order...";
+  statusMsg.textContent = "";
+  statusMsg.className = "form-status";
+
+  try {
+    await addDoc(collection(db, "orders"), order);
+    statusMsg.textContent = "Order placed successfully! We'll contact you soon.";
+    statusMsg.classList.add("success");
+    form.reset();
+    document.getElementById("qty").value = 1;
+    document.getElementById("orderModal").classList.add("open");
+  } catch (err) {
+    statusMsg.textContent = "Something went wrong: " + err.message;
+    statusMsg.classList.add("error");
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Place Order";
+  }
+});
+
+const orderModal = document.getElementById("orderModal");
+document.getElementById("modalCloseBtn").addEventListener("click", () => orderModal.classList.remove("open"));
+orderModal.addEventListener("click", (e) => { if (e.target === orderModal) orderModal.classList.remove("open"); });
+
+// Mobile menu toggle
+const menuToggle = document.getElementById("menuToggle");
+const navList = document.getElementById("navList");
+menuToggle.addEventListener("click", () => navList.classList.toggle("open"));
+
+// Highlight active nav link on scroll
+const sections = document.querySelectorAll("section[id]");
+const navLinks = document.querySelectorAll(".nav-links a");
+
+navLinks.forEach(link => {
+  link.addEventListener("click", () => navList.classList.remove("open"));
+});
+
+window.addEventListener("scroll", () => {
+  let current = sections[0].id;
+  sections.forEach(sec => {
+    if (window.scrollY >= sec.offsetTop - 120) current = sec.id;
+  });
+  navLinks.forEach(link => {
+    link.classList.toggle("active", link.getAttribute("href") === "#" + current);
+  });
+});
+</script>
+
+</body>
+</html>
