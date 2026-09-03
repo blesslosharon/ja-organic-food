@@ -34,7 +34,8 @@ a{color:inherit}
 /* Section heading */
 .section-head{text-align:center;margin-bottom:40px}
 .section-head h2{font-size:clamp(28px,4vw,36px)}
-.section-head .underline{width:70px;height:3px;background:#16DB65;margin:12px auto 0;border-radius:2px}
+.section-head .underline{width:70px;height:3px;background:#16DB65;margin:12px auto 0;border-radius:2px;transform:scaleX(0);transform-origin:center;transition:transform .6s ease}
+.section-head.in-view .underline{transform:scaleX(1)}
 .amp{color:var(--brown);font-weight:900}
 
 /* Navbar */
@@ -117,7 +118,7 @@ section{padding:70px 5%}
 .field.full{grid-column:1/-1}
 label{font-size:13px;font-weight:600;color:var(--brown)}
 input,select,textarea{font-family:inherit;padding:12px 14px;border-radius:10px;border:1px solid #e4d7c2;background:var(--cream-light);font-size:14px;color:var(--brown);width:100%}
-input:focus,select:focus,textarea:focus{outline:2px solid var(--gold);border-color:var(--gold)}
+input:focus,select:focus,textarea:focus{outline:2px solid #16DB65;border-color:#16DB65}
 textarea{resize:vertical;min-height:90px}
 .form-status{margin-top:14px;font-size:14px;font-weight:600;min-height:20px}
 .form-status.success{color:var(--success)}
@@ -264,6 +265,10 @@ footer{background:var(--brown);color:#fff}
         <span class="icon">💬</span>
         <div><h3>WhatsApp</h3><a href="https://wa.me/919150919311" target="_blank" rel="noopener">Chat with us to order</a></div>
       </div>
+      <div class="contact-card">
+        <span class="icon">📧</span>
+        <div><h3>Email</h3><a href="mailto:jaorgani@2026@gmail.com">jaorgani@2026@gmail.com</a></div>
+      </div>
     </div>
   </div>
 </section>
@@ -355,6 +360,7 @@ footer{background:var(--brown);color:#fff}
       <h3>Get in Touch</h3>
       <a href="tel:+919150919311">📞 +91 91509 19311</a>
       <a href="https://wa.me/919150919311" target="_blank" rel="noopener">💬 WhatsApp Orders</a>
+      <a href="mailto:jaorgani@2026@gmail.com">📧 jaorgani@2026@gmail.com</a>
     </div>
   </div>
   <div class="footer-bottom">© 2026 Ja Organic Food and Coconut Oil. All rights reserved.</div>
@@ -498,7 +504,15 @@ navLinks.forEach(link => {
   link.addEventListener("click", () => navList.classList.remove("open"));
 });
 
-window.addEventListener("scroll", () => {
+function revealUnderlines(){
+  const head = document.querySelectorAll(".section-head");
+  head.forEach(h => {
+    const top = h.getBoundingClientRect().top;
+    h.classList.toggle("in-view", top < window.innerHeight - 80);
+  });
+}
+
+function scrollHandler(){
   let current = sections[0].id;
   sections.forEach(sec => {
     if (window.scrollY >= sec.offsetTop - 120) current = sec.id;
@@ -506,7 +520,11 @@ window.addEventListener("scroll", () => {
   navLinks.forEach(link => {
     link.classList.toggle("active", link.getAttribute("href") === "#" + current);
   });
-});
+  revealUnderlines();
+}
+
+window.addEventListener("scroll", scrollHandler);
+scrollHandler();
 </script>
 
 </body>
