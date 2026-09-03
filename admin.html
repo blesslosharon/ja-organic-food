@@ -32,6 +32,8 @@ h1,h2,h3{font-family:'Playfair Display',serif;margin:0}
 .btn{background:var(--brown);color:#fff;padding:10px 20px;border-radius:20px;border:none;font-weight:600;font-size:14px;cursor:pointer;font-family:inherit;transition:.2s}
 .btn:hover{background:var(--brown-light)}
 .btn.ghost{background:transparent;color:var(--brown);border:1px solid var(--brown)}
+.btn-sm{padding:6px 12px;font-size:12px}
+.edit-input{padding:8px 10px;border-radius:8px;border:1px solid #e4d7c2;font-family:inherit;font-size:14px;width:100%;min-width:120px;background:var(--cream-light);color:var(--brown)}
 
 main{max-width:1200px;margin:0 auto;padding:30px 5% 60px}
 
@@ -133,7 +135,52 @@ if(sessionStorage.getItem("ja_admin_auth") !== "true"){
       <div class="empty" id="emptyMsg" style="display:none">No orders yet.</div>
     </div>
   </div>
+
 </main>
+
+<div style="max-width:1200px;margin:0 auto;padding:0 5% 60px">
+  <div class="panel" style="margin-top:30px">
+    <div class="panel-head">
+      <h2>Manage Products</h2>
+      <button class="btn" id="addProductBtn">+ Add Product</button>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Price (₹)</th>
+            <th>Image</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="productRows"></tbody>
+      </table>
+      <div class="loading" id="prodLoading">Loading products...</div>
+    </div>
+  </div>
+
+  <div class="panel" style="margin-top:30px">
+    <div class="panel-head">
+      <h2>Manage Offers</h2>
+      <button class="btn" id="addOfferBtn">+ Add Offer</button>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Icon</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="offerRows"></tbody>
+      </table>
+      <div class="loading" id="offerLoading">Loading offers...</div>
+    </div>
+  </div>
+</div>
 
 <script>
 document.getElementById("logoutBtn").addEventListener("click", () => {
@@ -144,7 +191,7 @@ document.getElementById("logoutBtn").addEventListener("click", () => {
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-import { getFirestore, collection, getDocs, query, orderBy, doc, updateDoc } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+import { getFirestore, collection, getDocs, query, orderBy, doc, updateDoc, addDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAEqFUJaJ7_Eh-HrPQk_UY8Zb299JZhIlg",
@@ -319,6 +366,110 @@ async function loadOrders(){
 
 refreshBtn.addEventListener("click", loadOrders);
 loadOrders();
+
+/* ---------- Product & Offer Management ---------- */
+
+const prodRows = document.getElementById("productRows");
+const offerRows = document.getElementById("offerRows");
+const prodLoading = document.getElementById("prodLoading");
+const offerLoading = document.getElementById("offerLoading");
+
+async function loadProducts(){
+  prodLoading.style.display = "block";
+  try{
+    const q = query(collection(db, "products"), orderBy("createdAt", "desc"));
+    const snap = await getDocs(q);
+    const prodData = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    prodRows.innerHTML = "";
+    if(!prodData.length) prodRows.innerHTML = '<tr><td colspan="4" class="empty">No products yet.</td></tr>';
+    prodData.forEach(p => {
+      const tr = document.createElement("tr");
+      tr.innerHTML =
+        '<td><input class="edit-input" data-col="products" value="' + (p.name || "") + '" data-id="' + p.id + '" data-field="name"></td>' +
+        '<td><input class="edit-input" data-col="products" type="number" value="' + (p.price || 0) + '" data-id="' + p.id + '" data-field="price"></td>' +
+        '<td><input class="edit-input" data-col="products" value="' + (p.image || "") + '" data-id="' + p.id + '" data-field="image" placeholder="image url or filename"></td>' +
+        '<td><button class="btn ghost btn-sm" data-col="products" data-del="' + p.id + '">Delete</button></td>';
+      prodRows.appendChild(tr);
+    });
+  }catch(e){
+    prodRows.innerHTML = '<tr><td colspan="4" class="empty">Failed: ' + e.message + '</td></tr>';
+  }finally{
+    prodLoading.style.display = "none";
+  }
+}
+
+async function loadOffers(){
+  offerLoading.style.display = "block";
+  try{
+    const q = query(collection(db, "offers"), orderBy("createdAt", "desc"));
+    const snap = await getDocs(q);
+    const offerData = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    offerRows.innerHTML = "";
+    if(!offerData.length) offerRows.innerHTML = '<tr><td colspan="4" class="empty">No offers yet.</td></tr>';
+    offerData.forEach(o => {
+      const tr = document.createElement("tr");
+      tr.innerHTML =
+        '<td><input class="edit-input" data-col="offers" value="' + (o.icon || "⭐") + '" data-id="' + o.id + '" data-field="icon"></td>' +
+        '<td><input class="edit-input" data-col="offers" value="' + (o.title || "") + '" data-id="' + o.id + '" data-field="title"></td>' +
+        '<td><input class="edit-input" data-col="offers" value="' + (o.desc || "") + '" data-id="' + o.id + '" data-field="desc"></td>' +
+        '<td><button class="btn ghost btn-sm" data-col="offers" data-del="' + o.id + '">Delete</button></td>';
+      offerRows.appendChild(tr);
+    });
+  }catch(e){
+    offerRows.innerHTML = '<tr><td colspan="4" class="empty">Failed: ' + e.message + '</td></tr>';
+  }finally{
+    offerLoading.style.display = "none";
+  }
+}
+
+document.addEventListener("input", async (e) => {
+  if(e.target.classList.contains("edit-input")){
+    const el = e.target;
+    const id = el.dataset.id;
+    const field = el.dataset.field;
+    const value = field === "price" ? Number(el.value) : el.value;
+    clearInterval(el._t);
+    el._t = setTimeout(async () => {
+      try{
+        await updateDoc(doc(db, el.dataset.col, id), { [field]: value });
+      }catch(err){ alert("Save failed: " + err.message); }
+    }, 600);
+  }
+});
+
+document.addEventListener("click", async (e) => {
+  if(e.target.dataset.del && e.target.dataset.col){
+    const id = e.target.dataset.del;
+    const col = e.target.dataset.col;
+    if(!confirm("Delete this item?")) return;
+    try{
+      await deleteDoc(doc(db, col, id));
+      if(col === "products") loadProducts(); else loadOffers();
+    }catch(err){ alert("Delete failed: " + err.message); }
+  }
+});
+
+document.getElementById("addProductBtn").addEventListener("click", async () => {
+  const name = prompt("Product name?");
+  if(!name) return;
+  try{
+    await addDoc(collection(db, "products"), { name, price: 0, image: "", createdAt: new Date().toISOString() });
+    loadProducts();
+  }catch(err){ alert("Failed: " + err.message); }
+});
+
+document.getElementById("addOfferBtn").addEventListener("click", async () => {
+  const title = prompt("Offer title?");
+  if(!title) return;
+  try{
+    await addDoc(collection(db, "offers"), { icon: "⭐", title, desc: "", createdAt: new Date().toISOString() });
+    loadOffers();
+  }catch(err){ alert("Failed: " + err.message); }
+});
+
+loadProducts();
+loadOffers();
+
 </script>
 
 </body>

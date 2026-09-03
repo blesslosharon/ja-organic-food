@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ja Organic Food | Pure Natural Sugar; Coconut Oil</title>
 <meta name="description" content="Ja Organic Food offers 100% natural, traditionally made nattu sakkarai (country sugar) and pure coconut oil. Cash on delivery available.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8C%B4%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="logo.jpeg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -189,7 +189,7 @@ footer{background:var(--brown);color:#fff}
 
 <section id="home" class="hero">
   <div class="hero-text">
-    <h1>Pure Nattu Sakkarai <span class="amp">+</span> Coconut Oil</h1>
+    <h1>Ja Organic Food<span class="amp">+</span> Coconut Oil</h1>
     <p class="lead">Traditional. Natural. Made with Love.</p>
     <a class="btn" href="#products">Shop Now →</a>
     <div class="hero-badges">
@@ -214,28 +214,7 @@ footer{background:var(--brown);color:#fff}
       <h2>Our Products</h2>
       <div class="underline"></div>
     </div>
-    <div class="cards">
-      <div class="card">
-        <img src="natusakaraimain.jpg" alt="500g pack of nattu sakkarai">
-        <div class="card-body"><h3>500g Pack</h3><div class="card-price">₹90</div></div>
-      </div>
-      <div class="card">
-        <img src="natusakaraimain.jpg" alt="1kg pack of nattu sakkarai">
-        <div class="card-body"><h3>1kg Pack</h3><div class="card-price">₹180</div></div>
-      </div>
-      <div class="card">
-        <img src="natusakaraimain.jpg" alt="5kg pack of nattu sakkarai">
-        <div class="card-body"><h3>5kg Pack</h3><div class="card-price">₹850</div></div>
-      </div>
-      <div class="card">
-        <img src="Coconutoil.png" alt="500ml bottle of pure coconut oil">
-        <div class="card-body"><h3>500ml Coconut Oil</h3><div class="card-price">₹250</div></div>
-      </div>
-      <div class="card">
-        <img src="Coconutoil.png" alt="1 litre bottle of pure coconut oil">
-        <div class="card-body"><h3>1L Coconut Oil</h3><div class="card-price">₹480</div></div>
-      </div>
-    </div>
+    <div class="cards" id="productCards"></div>
   </div>
 </section>
 
@@ -245,23 +224,7 @@ footer{background:var(--brown);color:#fff}
       <h2>Special Offers</h2>
       <div class="underline"></div>
     </div>
-    <div class="offers-grid">
-      <div class="offer-card">
-        <div class="icon">🚚</div>
-        <h3>Free Delivery</h3>
-        <p>Buy 5kg Nattu Sakkarai and get free delivery</p>
-      </div>
-      <div class="offer-card">
-        <div class="icon">🎁</div>
-        <h3>Combo Discount</h3>
-        <p>Order sakkarai + coconut oil together and save extra</p>
-      </div>
-      <div class="offer-card">
-        <div class="icon">⭐</div>
-        <h3>First Order</h3>
-        <p>New customers get a special discount on their first order</p>
-      </div>
-    </div>
+    <div class="offers-grid" id="offerCards"></div>
   </div>
 </section>
 
@@ -332,13 +295,7 @@ footer{background:var(--brown);color:#fff}
         <div class="form-row">
           <div class="field">
             <label for="product">Product</label>
-            <select id="product">
-              <option value="500g Pack">500g Pack — ₹90</option>
-              <option value="1kg Pack">1kg Pack — ₹180</option>
-              <option value="5kg Pack">5kg Pack — ₹850</option>
-              <option value="500ml Coconut Oil">500ml Coconut Oil — ₹250</option>
-              <option value="1L Coconut Oil">1L Coconut Oil — ₹480</option>
-            </select>
+            <select id="product"></select>
           </div>
           <div class="field">
             <label for="qty">Quantity</label>
@@ -405,7 +362,7 @@ footer{background:var(--brown);color:#fff}
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAEqFUJaJ7_Eh-HrPQk_UY8Zb299JZhIlg",
@@ -417,6 +374,69 @@ const firebaseConfig = {
 };
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+
+let products = [];
+let offers = [];
+
+function formatPrice(p){ return "₹" + (Number(p) || 0); }
+
+function renderProducts(){
+  const container = document.getElementById("productCards");
+  const select = document.getElementById("product");
+  container.innerHTML = "";
+  select.innerHTML = "";
+  if(!products.length){
+    container.innerHTML = '<p style="color:var(--muted)">No products yet.</p>';
+    return;
+  }
+  products.forEach(p => {
+    const card = document.createElement("div");
+    card.className = "card";
+    const img = p.image ? '<img src="' + p.image + '" alt="' + p.name + '">' : "";
+    card.innerHTML = img + '<div class="card-body"><h3>' + p.name + '</h3><div class="card-price">' + formatPrice(p.price) + '</div></div>';
+    container.appendChild(card);
+    const opt = document.createElement("option");
+    opt.value = p.name;
+    opt.textContent = p.name + " — " + formatPrice(p.price);
+    select.appendChild(opt);
+  });
+}
+
+function renderOffers(){
+  const container = document.getElementById("offerCards");
+  container.innerHTML = "";
+  if(!offers.length){
+    container.innerHTML = '<p style="color:var(--muted)">No offers yet.</p>';
+    return;
+  }
+  offers.forEach(o => {
+    const card = document.createElement("div");
+    card.className = "offer-card";
+    card.innerHTML = '<div class="icon">' + (o.icon || "⭐") + '</div><h3>' + o.title + '</h3><p>' + o.desc + '</p>';
+    container.appendChild(card);
+  });
+}
+
+if(localStorage.getItem("ja_products")){
+  try{ products = JSON.parse(localStorage.getItem("ja_products")); }catch(e){}
+  renderProducts();
+}
+if(localStorage.getItem("ja_offers")){
+  try{ offers = JSON.parse(localStorage.getItem("ja_offers")); }catch(e){}
+  renderOffers();
+}
+
+onSnapshot(query(collection(db, "products")), snap => {
+  products = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  try{ localStorage.setItem("ja_products", JSON.stringify(products)); }catch(e){}
+  renderProducts();
+});
+
+onSnapshot(query(collection(db, "offers")), snap => {
+  offers = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  try{ localStorage.setItem("ja_offers", JSON.stringify(offers)); }catch(e){}
+  renderOffers();
+});
 
 const form = document.getElementById("orderForm");
 const submitBtn = document.getElementById("submitBtn");
