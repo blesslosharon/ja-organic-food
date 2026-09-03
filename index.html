@@ -11,18 +11,18 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --brown:#4A2C1A;
-  --brown-light:#6B3F24;
-  --cream:#FFF8E7;
-  --cream-light:#FFFDF7;
-  --gold:#D9A441;
-  --muted:#8a6a54;
+  --brown:#1E4D2B;
+  --brown-light:#2E6B3F;
+  --cream:#F1F7EE;
+  --cream-light:#F8FBF6;
+  --gold:#B8912F;
+  --muted:#5f7a66;
   --card:#FFFFFF;
   --success:#2e7d32;
   --error:#b3261e;
   --radius:18px;
-  --shadow:0 6px 24px rgba(74,44,26,.08);
-  --shadow-hover:0 12px 32px rgba(74,44,26,.14);
+  --shadow:0 6px 24px rgba(30,77,43,.08);
+  --shadow-hover:0 12px 32px rgba(30,77,43,.14);
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -57,7 +57,7 @@ a{color:inherit}
 .menu-toggle span{width:24px;height:2px;background:var(--brown);border-radius:2px}
 
 /* Buttons */
-.btn{background:var(--brown);color:#fff;padding:12px 26px;border-radius:25px;text-decoration:none;font-weight:600;display:inline-flex;align-items:center;gap:8px;border:none;cursor:pointer;font-size:15px;font-family:inherit;transition:.2s;box-shadow:0 4px 14px rgba(74,44,26,.25)}
+.btn{background:var(--brown);color:#fff;padding:12px 26px;border-radius:25px;text-decoration:none;font-weight:600;display:inline-flex;align-items:center;gap:8px;border:none;cursor:pointer;font-size:15px;font-family:inherit;transition:.2s;box-shadow:0 4px 14px rgba(30,77,43,.25)}
 .btn:hover{background:var(--brown-light);transform:translateY(-2px)}
 .btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
 .btn-sm{padding:10px 20px;font-size:14px}
@@ -124,7 +124,7 @@ textarea{resize:vertical;min-height:90px}
 .form-status.error{color:var(--error)}
 
 /* Order confirmation popup */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(74,44,26,.45);z-index:1000;align-items:center;justify-content:center;padding:20px}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(30,77,43,.45);z-index:1000;align-items:center;justify-content:center;padding:20px}
 .modal-overlay.open{display:flex}
 .modal-box{background:var(--card);border-radius:var(--radius);padding:36px 30px;max-width:380px;width:100%;text-align:center;box-shadow:var(--shadow-hover);animation:pop .25s ease}
 @keyframes pop{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
@@ -189,7 +189,7 @@ footer{background:var(--brown);color:#fff}
 
 <section id="home" class="hero">
   <div class="hero-text">
-    <h1>Ja Organic Food<span class="amp">+</span> Coconut Oil</h1>
+    <h1>Ja Organic Foods </h1>
     <p class="lead">Traditional. Natural. Made with Love.</p>
     <a class="btn" href="#products">Shop Now →</a>
     <div class="hero-badges">
