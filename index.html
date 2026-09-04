@@ -96,6 +96,15 @@ section{padding:70px 5%}
 .offer-card h3{font-size:17px;font-family:'Poppins',sans-serif;font-weight:600}
 .offer-card p{color:var(--muted);font-size:14px;margin:0}
 
+/* Videos */
+.video-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
+.video-card{background:var(--card);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:.25s}
+.video-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-hover)}
+.video-card video{width:100%;display:block;aspect-ratio:16/9;background:#000;object-fit:cover}
+.video-card .video-body{padding:16px 18px}
+.video-card h3{font-family:'Poppins',sans-serif;font-size:16px;font-weight:600;margin:0 0 6px}
+.video-card p{color:var(--muted);font-size:14px;margin:0}
+
 /* About */
 .about-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:50px;align-items:center}
 .about-grid img{border-radius:var(--radius);box-shadow:var(--shadow)}
@@ -177,6 +186,7 @@ footer{background:var(--brown);color:#fff}
     <ul class="nav-links" id="navList">
       <li><a href="#home" class="active">Home</a></li>
       <li><a href="#products">Our Products</a></li>
+      <li><a href="#videos">Videos</a></li>
       <li><a href="#offers">Special Offers</a></li>
       <li><a href="#about">About Us</a></li>
       <li><a href="#contact">Contact Us</a></li>
@@ -216,6 +226,31 @@ footer{background:var(--brown);color:#fff}
       <div class="underline"></div>
     </div>
     <div class="cards" id="productCards"></div>
+  </div>
+</section>
+
+<section id="videos">
+  <div class="container">
+    <div class="section-head">
+      <h2>Recipe Videos</h2>
+      <div class="underline"></div>
+    </div>
+    <div class="video-grid">
+      <div class="video-card">
+        <video src="puttumavau1.mp4" controls preload="metadata"></video>
+        <div class="video-body">
+          <h3>Puttu Mavu</h3>
+          <p>Watch how traditional puttu mavu is prepared with our pure and natural rice flour.</p>
+        </div>
+      </div>
+      <div class="video-card">
+        <video src="idiyappam.mp4" controls preload="metadata"></video>
+        <div class="video-body">
+          <h3>Idiyappam Mavu</h3>
+          <p>Learn to make soft idiyappam using our finely ground, traditional idiyappam mavu.</p>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
