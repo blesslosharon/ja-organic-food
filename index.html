@@ -88,6 +88,11 @@ section{padding:70px 5%}
 .card-body{padding:16px 18px}
 .card-body h3{font-family:'Poppins',sans-serif;font-size:16px;font-weight:600;margin:0 0 6px}
 .card-price{color:var(--success);font-weight:700;font-size:17px}
+.card-price.size-list{margin-top:10px;border-top:1px dashed var(--cream)}
+.size-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--cream)}
+.size-row:last-child{border-bottom:none}
+.size-row span:first-child{font-size:13px;color:var(--brown);font-weight:500}
+.size-row span:last-child{font-size:15px;font-weight:700;color:var(--success)}
 
 /* Offers */
 .offers-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px}
@@ -440,11 +445,22 @@ function renderProducts(){
     const card = document.createElement("div");
     card.className = "card";
     const img = p.image ? '<img src="' + p.image + '" alt="' + p.name + '">' : "";
-    card.innerHTML = img + '<div class="card-body"><h3>' + p.name + '</h3><div class="card-price">' + formatPrice(p.price) + '</div></div>';
+    let priceHtml;
+    if (Array.isArray(p.sizes) && p.sizes.length) {
+      const rows = p.sizes.map(s => '<div class="size-row"><span>' + s.qty + '</span><span>' + formatPrice(s.price) + '</span></div>').join("");
+      priceHtml = '<div class="card-price size-list">' + rows + '</div>';
+    } else {
+      priceHtml = '<div class="card-price">' + formatPrice(p.price) + '</div>';
+    }
+    card.innerHTML = img + '<div class="card-body"><h3>' + p.name + '</h3>' + priceHtml + '</div>';
     container.appendChild(card);
     const opt = document.createElement("option");
     opt.value = p.name;
-    opt.textContent = p.name + " — " + formatPrice(p.price);
+    if (Array.isArray(p.sizes) && p.sizes.length) {
+      opt.textContent = p.name + " — " + p.sizes.map(s => s.qty + " ₹" + (Number(s.price) || 0)).join(", ");
+    } else {
+      opt.textContent = p.name + " — " + formatPrice(p.price);
+    }
     select.appendChild(opt);
   });
 }

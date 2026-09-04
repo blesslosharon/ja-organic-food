@@ -150,6 +150,7 @@ if(sessionStorage.getItem("ja_admin_auth") !== "true"){
           <tr>
             <th>Product</th>
             <th>Price (₹)</th>
+            <th>Sizes (qty=price)</th>
             <th>Image</th>
             <th></th>
           </tr>
@@ -381,18 +382,20 @@ async function loadProducts(){
     const snap = await getDocs(q);
     const prodData = snap.docs.map(d => ({ id: d.id, ...d.data() }));
     prodRows.innerHTML = "";
-    if(!prodData.length) prodRows.innerHTML = '<tr><td colspan="4" class="empty">No products yet.</td></tr>';
+    if(!prodData.length) prodRows.innerHTML = '<tr><td colspan="5" class="empty">No products yet.</td></tr>';
     prodData.forEach(p => {
       const tr = document.createElement("tr");
+      const sizesStr = Array.isArray(p.sizes) && p.sizes.length ? p.sizes.map(s => s.qty + "=" + s.price).join(",") : "";
       tr.innerHTML =
         '<td><input class="edit-input" data-col="products" value="' + (p.name || "") + '" data-id="' + p.id + '" data-field="name"></td>' +
         '<td><input class="edit-input" data-col="products" type="number" value="' + (p.price || 0) + '" data-id="' + p.id + '" data-field="price"></td>' +
+        '<td><input class="edit-input" data-col="products" value="' + sizesStr + '" data-id="' + p.id + '" data-field="sizes" placeholder="1/2kg=50,1kg=100"></td>' +
         '<td><input class="edit-input" data-col="products" value="' + (p.image || "") + '" data-id="' + p.id + '" data-field="image" placeholder="image url or filename"></td>' +
         '<td><button class="btn ghost btn-sm" data-col="products" data-del="' + p.id + '">Delete</button></td>';
       prodRows.appendChild(tr);
     });
   }catch(e){
-    prodRows.innerHTML = '<tr><td colspan="4" class="empty">Failed: ' + e.message + '</td></tr>';
+    prodRows.innerHTML = '<tr><td colspan="5" class="empty">Failed: ' + e.message + '</td></tr>';
   }finally{
     prodLoading.style.display = "none";
   }
@@ -428,10 +431,23 @@ document.addEventListener("input", async (e) => {
     const id = el.dataset.id;
     const field = el.dataset.field;
     const value = field === "price" ? Number(el.value) : el.value;
+    const saveData = {};
+    if(field === "sizes"){
+      const sizes = [];
+      String(el.value).split(",").forEach(part => {
+        const parts = part.split("=");
+        if(parts.length === 2 && parts[0].trim()){
+          sizes.push({ qty: parts[0].trim(), price: Number(parts[1]) || 0 });
+        }
+      });
+      saveData.sizes = sizes;
+    } else {
+      saveData[field] = value;
+    }
     clearInterval(el._t);
     el._t = setTimeout(async () => {
       try{
-        await updateDoc(doc(db, el.dataset.col, id), { [field]: value });
+        await updateDoc(doc(db, el.dataset.col, id), saveData);
       }catch(err){ alert("Save failed: " + err.message); }
     }, 600);
   }
